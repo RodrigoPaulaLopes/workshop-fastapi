@@ -12,6 +12,8 @@ services:
       PAMPS_DB__connect_args: "{}"
     volumes:
       - .:/home/app/api
+    networks:
+      - pamps_network
     depends_on:
       - pamps_db
     stdin_open: true
@@ -28,7 +30,9 @@ services:
       POSTGRES_DB: pamps
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-
- 
-  
+    networks:
+      - pamps_network
+networks:
+  pamps_network:
+    driver: bridge
 

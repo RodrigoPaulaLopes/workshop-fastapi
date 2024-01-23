@@ -1,7 +1,7 @@
 from typing import Optional
 from sqlmodel import Field, SQLModel
-
-
+from pamps.security import HashedPassword
+from pydantic import BaseModel
 
 
 class User(SQLModel, table=True):
@@ -10,4 +10,17 @@ class User(SQLModel, table=True):
     username: str = Field(unique=True, nullable=False)
     avatar: Optional[str] = None
     bio: Optional[str] = None
-    password: str = Field(nullable=False)
+    password: HashedPassword
+    
+    
+class UserRequest(BaseModel):
+    email: str
+    username: str
+    password: str
+    avatar: Optional[str] = None
+    bio: Optional[str] = None
+
+class UserResponse(BaseModel):
+    username: str
+    avatar: Optional[str] = None
+    bio: Optional[str] = None
