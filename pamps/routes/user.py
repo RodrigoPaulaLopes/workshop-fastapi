@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 from sqlmodel import Session, select
 from pamps.db import ActiveSession
 from pamps.models.user import User, UserRequest, UserResponse
+from pamps.crypt import encrypt_password
 
 router = APIRouter()
 
@@ -24,6 +25,8 @@ async def get_user_by_username(*, session: Session = ActiveSession, username: st
 @router.post("/", response_model=UserResponse, status_code=201)
 async def create_user(*, session: Session = ActiveSession, user: UserRequest):
     """Creates new user"""
+    
+    user.password = encrypt_password(user.password)
     db_user = User.from_orm(user)  # transform UserRequest in User
     session.add(db_user)
     session.commit()

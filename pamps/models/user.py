@@ -5,12 +5,13 @@ from pydantic import BaseModel
 
 
 class User(SQLModel, table=True):
-    id: Optional[str] = Field(default=None, primary_key=True)
+    id: Optional[int] = Field(default=None, primary_key=True)
     email: str = Field(unique=True, nullable=False)
     username: str = Field(unique=True, nullable=False)
+    full_name: Optional[str] = None
     avatar: Optional[str] = None
     bio: Optional[str] = None
-    password: HashedPassword
+    password: str
     
     
 class UserRequest(BaseModel):
